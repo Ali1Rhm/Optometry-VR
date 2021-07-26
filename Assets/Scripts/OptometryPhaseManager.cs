@@ -58,9 +58,10 @@ public class OptometryPhaseManager : MonoBehaviour
 
     public void ToggleTumplingEObjects(int index)
     {
-        if (index >= m_tumplingEObjects.Length) return;
+        int i = index - 1;
+        if (i >= m_tumplingEObjects.Length) return;
 
-        m_tumplingEObjects[index].SetActive(!m_tumplingEObjects[index].activeInHierarchy);
+        m_tumplingEObjects[i].SetActive(!m_tumplingEObjects[i].activeInHierarchy);
     }
 
     private void Init()
@@ -87,6 +88,7 @@ public class OptometryPhaseManager : MonoBehaviour
             _tumblingE = Instantiate(tumblingEPrefab,
             m_secondPhaseHolder.transform.position, Quaternion.identity, m_secondPhaseHolder.transform); // Instantiate tumbling E as a child to phase holder
             m_tumplingEObjects[i] = _tumblingE;
+            _tumblingE.SetActive(false); // Deactive tumbling E
             _tumblingE.transform.localScale *= secondPhaseTumblingESize / tumblingEMainSize; // Set tumbling E size
 
             if (!automaticPositioning) // If automatic positioning is off, position tumblingE based on tumblingEPositions Array
