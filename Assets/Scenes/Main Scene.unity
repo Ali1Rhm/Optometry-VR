@@ -465,6 +465,7 @@ MonoBehaviour:
   rotateTumblingE: 1
   automaticPositioning: 1
   tumblingECount: 9
+  angleBetween: 30
   tumblingEPositions: []
   positioningRange: 0.1
 --- !u!114 &1597083277

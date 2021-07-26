@@ -100,6 +100,13 @@ public class RequestListener : MonoBehaviour
     // Handle the client request based on the message
     private void HandleRequest(string message)
     {
+        bool _isNumeric = int.TryParse(message, out int n);
+        if (_isNumeric)
+        {
+            m_optometryPhaseManager.ToggleTumplingEObjects(n);
+            return;
+        }
+
         switch (message)
         {
             case "ToggleFirst":

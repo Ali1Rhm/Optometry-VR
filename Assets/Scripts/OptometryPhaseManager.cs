@@ -6,6 +6,7 @@ public class OptometryPhaseManager : MonoBehaviour
     private Vector3 m_userCameraPosition;
     private GameObject m_firstPhaseHolder;
     private GameObject m_secondPhaseHolder;
+    private GameObject[] m_tumplingEObjects;
 
     [Header("General Settings")]
     [SerializeField] private Transform cameraRig;
@@ -30,6 +31,8 @@ public class OptometryPhaseManager : MonoBehaviour
     [Tooltip("Works if automatic positioning is on")]
     [ShowIf("automaticPositioning")]
     [SerializeField] [Min(0f)] private int tumblingECount;
+    [ShowIf("automaticPositioning")]
+    [SerializeField] private float angleBetween;
     [HideIf("automaticPositioning")]
     [SerializeField] private Vector2[] tumblingEPositions;
     [SerializeField] [Min(0.1f)] private float positioningRange;
@@ -53,6 +56,13 @@ public class OptometryPhaseManager : MonoBehaviour
         m_secondPhaseHolder.SetActive(!m_secondPhaseHolder.activeInHierarchy);
     }
 
+    public void ToggleTumplingEObjects(int index)
+    {
+        if (index >= m_tumplingEObjects.Length) return;
+
+        m_tumplingEObjects[index].SetActive(!m_tumplingEObjects[index].activeInHierarchy);
+    }
+
     private void Init()
     {
         // Get user camera position
@@ -70,10 +80,13 @@ public class OptometryPhaseManager : MonoBehaviour
         m_secondPhaseHolder = new GameObject("Second Phase Holder"); // Create second phase holder
         m_secondPhaseHolder.SetActive(false); // Hide the phase holder
         m_secondPhaseHolder.transform.position = m_userCameraPosition + (Vector3.forward * secondPhaseDistanceFromCamera); // Position the phase holder
+
+        m_tumplingEObjects = new GameObject[tumblingECount];
         for (int i = 0; i < tumblingECount; i++) // Create and position (tumblingECount) tumblingE
         {
             _tumblingE = Instantiate(tumblingEPrefab,
             m_secondPhaseHolder.transform.position, Quaternion.identity, m_secondPhaseHolder.transform); // Instantiate tumbling E as a child to phase holder
+            m_tumplingEObjects[i] = _tumblingE;
             _tumblingE.transform.localScale *= secondPhaseTumblingESize / tumblingEMainSize; // Set tumbling E size
 
             if (!automaticPositioning) // If automatic positioning is off, position tumblingE based on tumblingEPositions Array
@@ -82,8 +95,13 @@ public class OptometryPhaseManager : MonoBehaviour
             {
                 if (i == tumblingECount - 1) return;
                 
-                float _angle = (i * (360f / (tumblingECount - 1))) * Mathf.Deg2Rad;
-                Vector2 _dir = new Vector2(Mathf.Sin(_angle), Mathf.Cos(_angle));
+                float _angle;
+                if (angleBetween == 0)
+                    _angle = (i * (360f / (tumblingECount - 1))) * Mathf.Deg2Rad;
+                else
+                    _angle = (i * angleBetween) * Mathf.Deg2Rad;
+
+                    Vector2 _dir = new Vector2(Mathf.Cos(_angle), Mathf.Sin(_angle));
                 _tumblingE.transform.position += (Vector3) _dir * positioningRange;
             }
 
