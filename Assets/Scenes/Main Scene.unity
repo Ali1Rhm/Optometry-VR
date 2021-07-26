@@ -166,9 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 555340faf896ae2419e782b8a145b8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getIPAutomaric: 1
-  iP: 0.0.0.0
-  port: 5021
+  data: {fileID: 11400000, guid: 041b2c15989f9e14da3f387a8affc436, type: 2}
 --- !u!1 &389560502
 GameObject:
   m_ObjectHideFlags: 0

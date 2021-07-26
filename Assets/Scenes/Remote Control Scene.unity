@@ -842,7 +842,7 @@ GameObject:
   - component: {fileID: 233960337}
   - component: {fileID: 233960336}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: IP input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -923,9 +923,9 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 758586842}
-        m_TargetAssemblyTypeName: Client, Assembly-CSharp
-        m_MethodName: SetIP
+      - m_Target: {fileID: 758586843}
+        m_TargetAssemblyTypeName: IPInput, Assembly-CSharp
+        m_MethodName: ChangeIP
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 233960336}
@@ -1806,8 +1806,9 @@ GameObject:
   m_Component:
   - component: {fileID: 758586841}
   - component: {fileID: 758586842}
+  - component: {fileID: 758586843}
   m_Layer: 0
-  m_Name: Client Manager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1839,7 +1840,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7778fc0290374834d9e8522c5ec4d5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 5021
+  data: {fileID: 11400000, guid: 041b2c15989f9e14da3f387a8affc436, type: 2}
+--- !u!114 &758586843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758586840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b3ecdd0aa718b4f9b86402b12b4a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 041b2c15989f9e14da3f387a8affc436, type: 2}
 --- !u!1 &767814466
 GameObject:
   m_ObjectHideFlags: 0

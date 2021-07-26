@@ -5,18 +5,11 @@ using System;
 
 public class Client : MonoBehaviour
 {
-    private string m_IP;
-    [SerializeField] private Int32 port;
-
-    public void SetIP(InputField iPInput)
-    {
-        m_IP = iPInput.text;
-        print(m_IP);
-    }
+    public LocalhostData data;
 
     public void SendRequest(string message)
     {
-        Connect(m_IP, port, message);
+        Connect(data.IP, data.Port, message);
     }
 
     private static void Connect(String server, Int32 port, String message)

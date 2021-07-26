@@ -11,20 +11,12 @@ public class RequestListener : MonoBehaviour
     EyesManager m_eyeManager;
     TcpListener m_server = null;
 
-    [SerializeField] private bool getIPAutomaric;
-    [HideIf("getIPAutomaric")]
-    [SerializeField] private string iP;
-    [SerializeField] private Int32 port;
-
+    public LocalhostData data;
     private void Awake()
     {
         // Reference to OptometryPhaseManager script
         m_optometryPhaseManager = GameObject.FindObjectOfType<OptometryPhaseManager>();
         m_eyeManager = GameObject.FindObjectOfType<EyesManager>();
-
-        // Get Local IP if getIPAutomaric is checked
-        if(getIPAutomaric)
-            iP = GetIP.LocalIPAddress();
     }
 
     async void Start()
@@ -47,10 +39,10 @@ public class RequestListener : MonoBehaviour
     async Task ListenForClients()
     {
         // Set the TcpListener on port 13000.
-        IPAddress _localAddr = IPAddress.Parse(iP);
+        IPAddress _localAddr = IPAddress.Parse(data.IP);
 
         // TcpListener server = new TcpListener(port);
-        m_server = new TcpListener(_localAddr, port);
+        m_server = new TcpListener(_localAddr, data.Port);
 
         // Start listening for client requests.
         m_server.Start();
