@@ -1,12 +1,9 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using UnityEngine;
-using System.Threading;
-using System.Collections;
-using UnityEngine.UI;
 using System.Threading.Tasks;
+using NaughtyAttributes;
 
 public class RequestListener : MonoBehaviour
 {
@@ -14,6 +11,8 @@ public class RequestListener : MonoBehaviour
     EyesManager m_eyeManager;
     TcpListener m_server = null;
 
+    [SerializeField] private bool getIPAutomaric;
+    [HideIf("getIPAutomaric")]
     [SerializeField] private string iP;
     [SerializeField] private Int32 port;
 
@@ -22,6 +21,10 @@ public class RequestListener : MonoBehaviour
         // Reference to OptometryPhaseManager script
         m_optometryPhaseManager = GameObject.FindObjectOfType<OptometryPhaseManager>();
         m_eyeManager = GameObject.FindObjectOfType<EyesManager>();
+
+        // Get Local IP if getIPAutomaric is checked
+        if(getIPAutomaric)
+            iP = GetIP.LocalIPAddress();
     }
 
     async void Start()
@@ -94,6 +97,7 @@ public class RequestListener : MonoBehaviour
         }
     }
 
+    // Handle the client request based on the message
     private void HandleRequest(string message)
     {
         switch (message)

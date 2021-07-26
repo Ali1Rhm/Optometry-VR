@@ -1,17 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Net.Sockets;
 using System;
 
 public class Client : MonoBehaviour
 {
-    [SerializeField] private string iP;
+    private string m_IP;
     [SerializeField] private Int32 port;
+
+    public void SetIP(InputField iPInput)
+    {
+        m_IP = iPInput.text;
+        print(m_IP);
+    }
 
     public void SendRequest(string message)
     {
-        Connect(iP, port, message);
+        Connect(m_IP, port, message);
     }
 
     private static void Connect(String server, Int32 port, String message)

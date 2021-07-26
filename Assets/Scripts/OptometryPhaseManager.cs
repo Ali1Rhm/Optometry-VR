@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class OptometryPhaseManager : MonoBehaviour
 {
@@ -12,26 +11,28 @@ public class OptometryPhaseManager : MonoBehaviour
     [SerializeField] private Transform cameraRig;
     [SerializeField] private GameObject tumblingEPrefab;
     [Tooltip("MainSize should be in centimeters.")]
-    [SerializeField] private float tumblingEMainSize;
+    [SerializeField] [Min(0f)] private float tumblingEMainSize;
     [SerializeField] private bool activateAtFirst; // Will app starts as first phase is active?
 
     [Header("First Phase Settings")]
     [Tooltip("Distance should be in meters.")]
     [SerializeField] [Range(0.2f, 9f)] private float firstPhaseDistanceFromCamera;
     [Tooltip("Size should be in centimeters.")]
-    [SerializeField] private float firstPhaseTumblingESize;
+    [SerializeField] [Min(0f)] private float firstPhaseTumblingESize;
 
     [Header("Second Phase Settings")]
     [Tooltip("Distance should be in meters.")]
     [SerializeField] [Range(0.2f, 9f)] private float secondPhaseDistanceFromCamera;
     [Tooltip("Size should be in centimeters.")]
-    [SerializeField] private float secondPhaseTumblingESize;
+    [SerializeField] [Min(0f)] private float secondPhaseTumblingESize;
     [SerializeField] private bool rotateTumblingE;
     [SerializeField] private bool automaticPositioning;
     [Tooltip("Works if automatic positioning is on")]
-    [SerializeField] private int tumblingECount;
+    [ShowIf("automaticPositioning")]
+    [SerializeField] [Min(0f)] private int tumblingECount;
+    [HideIf("automaticPositioning")]
     [SerializeField] private Vector2[] tumblingEPositions;
-    [SerializeField] private float positioningRange;
+    [SerializeField] [Min(0.1f)] private float positioningRange;
 
     // Start is called before the first frame update
     private void Start()
