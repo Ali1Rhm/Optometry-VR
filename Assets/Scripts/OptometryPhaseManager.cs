@@ -20,12 +20,14 @@ public class OptometryPhaseManager : MonoBehaviour
     [SerializeField] [Range(0.2f, 9f)] private float firstPhaseDistanceFromCamera;
     [Tooltip("Size should be in centimeters.")]
     [SerializeField] [Min(0f)] private float firstPhaseTumblingESize;
+    [SerializeField] [Min(0f)] private float firstPhaseTumblingEDepth;
 
     [Header("Second Phase Settings")]
     [Tooltip("Distance should be in meters.")]
     [SerializeField] [Range(0.2f, 9f)] private float secondPhaseDistanceFromCamera;
     [Tooltip("Size should be in centimeters.")]
     [SerializeField] [Min(0f)] private float secondPhaseTumblingESize;
+    [SerializeField] [Min(0f)] private float secondPhaseTumblingEDepth;
     [SerializeField] private bool rotateTumblingE;
     [SerializeField] private bool automaticPositioning;
     [Tooltip("Works if automatic positioning is on")]
@@ -46,22 +48,17 @@ public class OptometryPhaseManager : MonoBehaviour
             m_firstPhaseHolder.SetActive(true);
     }
 
-    public void ToggleFirstPhase()
-    {
-        m_firstPhaseHolder.SetActive(!m_firstPhaseHolder.activeInHierarchy);
-    }
-
-    public void ToggleSecondPhase()
-    {
-        m_secondPhaseHolder.SetActive(!m_secondPhaseHolder.activeInHierarchy);
-    }
-
     public void ToggleTumplingEObjects(int index)
     {
-        int i = index - 1;
-        if (i >= m_tumplingEObjects.Length) return;
+        if (index >= m_tumplingEObjects.Length || index < 0) return;
 
-        m_tumplingEObjects[i].SetActive(!m_tumplingEObjects[i].activeInHierarchy);
+        for (int i = 0; i < m_tumplingEObjects.Length; i++)
+        {
+            if(i == index)
+                m_tumplingEObjects[i].SetActive(!m_tumplingEObjects[i].activeInHierarchy);
+            else
+                m_tumplingEObjects[i].SetActive(false);
+        }
     }
 
     private void Init()
@@ -69,27 +66,30 @@ public class OptometryPhaseManager : MonoBehaviour
         // Get user camera position
         m_userCameraPosition = cameraRig.position;
 
+        m_tumplingEObjects = new GameObject[tumblingECount + 1];
+
         // First phase configuration and setup
         m_firstPhaseHolder = new GameObject("First Phase Holder"); // Create first phase holder
-        m_firstPhaseHolder.SetActive(false); // Hide the phase holder
         m_firstPhaseHolder.transform.position = m_userCameraPosition + (Vector3.forward * firstPhaseDistanceFromCamera); // Position the phase holder
         GameObject _tumblingE = Instantiate(tumblingEPrefab,
             m_firstPhaseHolder.transform.position, Quaternion.identity, m_firstPhaseHolder.transform); // Instantiate tumbling E as a child to phase holder
-        _tumblingE.transform.localScale *= firstPhaseTumblingESize / tumblingEMainSize; // Set tumbling E size
+        Vector3 _newScale = new Vector3(firstPhaseTumblingESize / tumblingEMainSize, firstPhaseTumblingESize / tumblingEMainSize, firstPhaseTumblingEDepth);
+        _tumblingE.transform.localScale = _newScale; // Set tumbling E size
+
+        m_tumplingEObjects[0] = _tumblingE;
 
         // Second phase configuration and setup
         m_secondPhaseHolder = new GameObject("Second Phase Holder"); // Create second phase holder
-        m_secondPhaseHolder.SetActive(false); // Hide the phase holder
         m_secondPhaseHolder.transform.position = m_userCameraPosition + (Vector3.forward * secondPhaseDistanceFromCamera); // Position the phase holder
 
-        m_tumplingEObjects = new GameObject[tumblingECount];
         for (int i = 0; i < tumblingECount; i++) // Create and position (tumblingECount) tumblingE
         {
             _tumblingE = Instantiate(tumblingEPrefab,
             m_secondPhaseHolder.transform.position, Quaternion.identity, m_secondPhaseHolder.transform); // Instantiate tumbling E as a child to phase holder
-            m_tumplingEObjects[i] = _tumblingE;
+            m_tumplingEObjects[i + 1] = _tumblingE;
             _tumblingE.SetActive(false); // Deactive tumbling E
-            _tumblingE.transform.localScale *= secondPhaseTumblingESize / tumblingEMainSize; // Set tumbling E size
+            _newScale = new Vector3(secondPhaseTumblingESize / tumblingEMainSize, secondPhaseTumblingESize / tumblingEMainSize, secondPhaseTumblingEDepth);
+            _tumblingE.transform.localScale = _newScale; // Set tumbling E size // Set tumbling E size
 
             if (!automaticPositioning) // If automatic positioning is off, position tumblingE based on tumblingEPositions Array
                 _tumblingE.transform.position += (Vector3) tumblingEPositions[i] * positioningRange;

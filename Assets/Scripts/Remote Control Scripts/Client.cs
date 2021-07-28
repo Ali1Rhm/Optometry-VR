@@ -5,7 +5,22 @@ using System;
 
 public class Client : MonoBehaviour
 {
-    public LocalhostData data;
+    [SerializeField] private Toggle[] eToggles;  
+    [SerializeField] private LocalhostData data;
+
+    public void Start()
+    {
+        eToggles[0].isOn = true;
+    }
+
+    public void SetToggles(Toggle currentToggle)
+    {
+        foreach (Toggle eToggle in eToggles)
+        {
+            if (eToggle != currentToggle)
+                eToggle.isOn = false;
+        }
+    }
 
     public void SendRequest(string message)
     {

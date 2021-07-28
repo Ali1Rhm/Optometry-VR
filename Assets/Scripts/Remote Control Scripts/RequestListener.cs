@@ -101,12 +101,6 @@ public class RequestListener : MonoBehaviour
 
         switch (message)
         {
-            case "ToggleFirst":
-                m_optometryPhaseManager.ToggleFirstPhase();
-                break;
-            case "ToggleSecond":
-                m_optometryPhaseManager.ToggleSecondPhase();
-                break;
             case "ToggleRight":
                 m_eyeManager.ToggleRightEye();
                 break;
