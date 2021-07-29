@@ -55,7 +55,7 @@ public class OptometryPhaseManager : MonoBehaviour
         for (int i = 0; i < m_tumplingEObjects.Length; i++)
         {
             if(i == index)
-                m_tumplingEObjects[i].SetActive(!m_tumplingEObjects[i].activeInHierarchy);
+                m_tumplingEObjects[i].SetActive(true);
             else
                 m_tumplingEObjects[i].SetActive(false);
         }

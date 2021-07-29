@@ -107,6 +107,10 @@ public class RequestListener : MonoBehaviour
             case "ToggleLeft":
                 m_eyeManager.ToggleLeftEye();
                 break;
+            case "ToggleBoth":
+                m_eyeManager.ToggleRightEye();
+                m_eyeManager.ToggleLeftEye();
+                break;
             default:
                 return;
         }
